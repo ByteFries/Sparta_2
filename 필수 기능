@@ -1,0 +1,53 @@
+#include <iostream>
+using namespace std;
+
+class Animal
+{
+public:
+	Animal() = default;
+	~Animal() = default;
+
+	virtual void MakeSound() abstract;
+protected:
+};
+
+class Dog : public Animal
+{
+public:
+	void MakeSound() override
+	{
+		cout << "멍멍" << endl;
+	}
+};
+
+class Cat : public Animal
+{
+public:
+	void MakeSound() override
+	{
+		cout << "야옹" << endl;
+	}
+};
+
+class Cow : public Animal
+{
+public:
+	void MakeSound() override
+	{
+		cout << "음머" << endl;
+	}
+};
+
+int main()
+{
+	Animal* animals[3];
+
+	animals[0] = new Dog;
+	animals[1] = new Cat;
+	animals[2] = new Cow;
+
+	for (int i = 0; i < 3; i++)
+	{
+		animals[i]->MakeSound();
+	}
+}
