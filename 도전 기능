@@ -1,0 +1,111 @@
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+class Animal
+{
+public:
+	Animal() = default;
+	virtual ~Animal() = default;
+
+	virtual void MakeSound() abstract;
+protected:
+};
+
+class Dog : public Animal
+{
+public:
+	void MakeSound() override
+	{
+		cout << "멍멍" << endl;
+	}
+};
+
+class Cat : public Animal
+{
+public:
+	void MakeSound() override
+	{
+		cout << "야옹" << endl;
+	}
+};
+
+class Cow : public Animal
+{
+public:
+	void MakeSound() override
+	{
+		cout << "음머" << endl;
+	}
+};
+
+class Zoo
+{
+public:
+	~Zoo()
+	{
+		for (size_t i = 0; i < animalCount; ++i)
+		{
+			delete animals[i];
+		}
+	}
+
+	void AddAnimal(Animal* animal)
+	{
+		if (animalCount >= 10)
+		{
+			cout << "수용할 공간이 없음." << endl;
+			return;
+		}
+		else if (animal == nullptr)
+    {
+      cout << "잘못 생성된 객체" << endl;
+    }
+		animals[animalCount++] = animal;
+	}
+
+	void PerfromActions()
+	{
+		for (int i = 0; i < animalCount; i++)
+		{
+			animals[i]->MakeSound();
+		}
+	}
+
+private:
+	Animal* animals[10];
+	size_t animalCount = 0;
+};
+
+Animal* CreateRandomAnimal()
+{
+	int type = rand() % 3;
+
+	switch (type)
+	{
+	case 0:
+		return new Dog();
+	case 1:
+		return new Cat();
+	case 2:
+		return new Cow();
+	default:
+		return nullptr;
+	}
+}
+
+int main()
+{
+	srand(time(NULL));
+
+	Zoo zoo = Zoo();
+
+	for (int i = 0; i < 10; i++)
+	{
+		zoo.AddAnimal(CreateRandomAnimal());
+	}
+
+	zoo.PerfromActions();
+}
